@@ -22,10 +22,15 @@ export class TaskService {
     return await this.taskModel.findById(id);
   }
 
-  async update(updateTaskDto: UpdateTaskDto) {
+  async update(id: ObjectId, updateTaskDto: UpdateTaskDto) {
     return await this.taskModel.updateOne({
-      _id: updateTaskDto.id,
-      updateTaskDto,
+      _id: id,
+      title: updateTaskDto.title,
+      description: updateTaskDto.description,
     });
+  }
+
+  async delete(id: ObjectId) {
+    return await this.taskModel.deleteOne({ _id: id });
   }
 }
