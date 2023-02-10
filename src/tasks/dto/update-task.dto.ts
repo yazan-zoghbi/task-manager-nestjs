@@ -1,7 +1,8 @@
-export class CreateTaskDto{
+export class UpdateTaskDto{
+    id : string
     title: string
     description: string
-    dueDate: Date
     status: string
     assignedTo: string
+    updatedAt: string
 }
