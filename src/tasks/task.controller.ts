@@ -26,7 +26,12 @@ export class TaskController {
   }
 
   @Put('/tasks/:id')
-  async update(@Body() updateTaskDto: UpdateTaskDto) {
-    return this.taskService.update(updateTaskDto);
+  async update(@Param('id') id: ObjectId , @Body() updateTaskDto: UpdateTaskDto) {
+    return this.taskService.update(id,updateTaskDto);
+  }
+
+  @Delete('/tasks/:id')
+  async delete(@Param('id') id: ObjectId) {
+    return this.taskService.delete(id);
   }
 }
