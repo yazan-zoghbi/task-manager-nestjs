@@ -19,5 +19,10 @@ This task management system is built using the Nest.js framework and MongoDB as 
 ```npm run start```
 5. Open the browser and visit http://localhost:3000/tasks to view the list of tasks.
 
+## Current Tasks
+- [ ] adding update-assignee service & controller
+- [ ] adding user module
+- [ ] adding project module
+
 ## Contributing
 If you're interested in contributing to the project, please check out the contribution guidelines for more information.
