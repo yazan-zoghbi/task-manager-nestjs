@@ -15,7 +15,7 @@ export class Task {
   @Prop()
   dueDate: Date;
 
-  @Prop()
+  @Prop({default : "to do"})
   status: string;
 
   @Prop()
