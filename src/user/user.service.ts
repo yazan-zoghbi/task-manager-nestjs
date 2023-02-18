@@ -15,8 +15,12 @@ export class UserService {
     return await this.userModel.create(createUserDto);
   }
 
-  async getOne(id: ObjectId) {
+  async getById(id: ObjectId) {
     return await this.userModel.findById(id);
+  }
+
+  async findOne(username: string) {
+    return await this.userModel.findOne({ username });
   }
 
   async update(id: ObjectId, updateUserDto: UpdateUserDto) {
