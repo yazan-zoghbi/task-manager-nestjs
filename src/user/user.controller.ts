@@ -22,7 +22,7 @@ export class UserController {
   @ApiParam({ name: 'id', type: String })
   @Get('/user/:id')
   async getUser(@Param('id') id: ObjectId) {
-    return this.userService.getOne(id);
+    return this.userService.getById(id);
   }
 
   // Create a new user
