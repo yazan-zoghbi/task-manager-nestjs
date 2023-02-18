@@ -12,7 +12,7 @@ export class User {
   email: String;
 
   @Prop({ required: true })
-  password: String;
+  password: string;
 
   @Prop(
     raw({
