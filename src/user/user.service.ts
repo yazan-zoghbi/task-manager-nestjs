@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId } from 'mongoose';
+import mongoose, { Model, ObjectId } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schema/user.schema';
@@ -12,10 +12,20 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    return await this.userModel.create(createUserDto);
+    const createdUser = new this.userModel({
+        _id: new mongoose.Types.ObjectId(),
+        name: {
+          firstName: createUserDto.name.firstName,
+          lastName: createUserDto.name.lastName,
+        },
+        username: createUserDto.username,
+        email: createUserDto.email,
+        password: createUserDto.password,
+      });
+      return await createdUser.save();
   }
 
-  async getById(id: ObjectId) {
+  async getById(id: mongoose.Types.ObjectId) {
     return await this.userModel.findById(id);
   }
 
