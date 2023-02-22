@@ -1,12 +1,12 @@
 export class CreateUserDto {
   name: {
-    firstName: String;
-    lastName: String;
+    firstName: string;
+    lastName: string;
   };
 
-  username: String;
-  email: String;
-  password: String;
+  username: string;
+  email: string;
+  password: string;
 }
 
 
