@@ -9,7 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiBody, ApiParam } from '@nestjs/swagger';
-import { ObjectId } from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
@@ -21,7 +21,7 @@ export class UserController {
   // Get a user by id
   @ApiParam({ name: 'id', type: String })
   @Get('/user/:id')
-  async getUser(@Param('id') id: ObjectId) {
+  async getUser(@Param('id') id: mongoose.Types.ObjectId) {
     return this.userService.getById(id);
   }
 
