@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
-import { BcryptService } from 'src/modules/bcrypt/bcrypt.services';
+import { BcryptService } from 'src/modules/bcrypt/bcrypt.service';
 import { User, UserSchema } from '../schema/user.schema';
 import { UserModule } from '../user.module';
 import { UserService } from '../user.service';
