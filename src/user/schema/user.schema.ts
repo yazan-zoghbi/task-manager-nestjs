@@ -5,7 +5,7 @@ export type UserDocument = Document & User;
 
 @Schema()
 export class User {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true, lowercase:true })
   username: string;
 
   @Prop({ required: true })
@@ -21,9 +21,6 @@ export class User {
     }),
   )
   name: Record<string, any>;
-
-  @Prop({ auto: true })
-  _id: Types.ObjectId;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
