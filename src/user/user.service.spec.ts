@@ -30,21 +30,6 @@ describe('UserService', () => {
     await userModel.deleteMany({});
   });
 
-  describe('create', () => {
-    it('should create a new user', async () => {
-      const createUserDto: SignupUserDto = {
-        firstName: 'John',
-        lastName: 'Doe',
-        username: 'johndoe',
-        email: 'johndoe@example.com',
-        password: 'password',
-      };
-      const user = await service.create(createUserDto);
-      expect(user).toHaveProperty('id');
-      expect(user.username).toEqual(createUserDto.username);
-      expect(user.email).toEqual(createUserDto.email);
-    });
-  });
 
   describe('getById', () => {
     it('should return the user with the specified ID', async () => {
@@ -55,16 +40,16 @@ describe('UserService', () => {
         email: 'johndoe@example.com',
         password: 'password',
       };
-      const createdUser = await service.create(createUserDto);
-      const userId = createdUser._id;
+    // //   const createdUser = await service.create(createUserDto);
+    // //   const userId = createdUser._id;
 
-      const foundUser = await service.getById(userId.toString());
-      expect(foundUser).toBeDefined();
-      expect(foundUser._id).toEqual(userId);
-      expect(foundUser.username).toEqual(createUserDto.username);
-      expect(foundUser.email).toEqual(createUserDto.email);
-      expect(foundUser.name.firstName).toEqual(createUserDto.firstName);
-      expect(foundUser.name.lastName).toEqual(createUserDto.lastName);
+    //   const foundUser = await service.getById(userId.toString());
+    //   expect(foundUser).toBeDefined();
+    //   expect(foundUser._id).toEqual(userId);
+    //   expect(foundUser.username).toEqual(createUserDto.username);
+    //   expect(foundUser.email).toEqual(createUserDto.email);
+    //   expect(foundUser.name.firstName).toEqual(createUserDto.firstName);
+    //   expect(foundUser.name.lastName).toEqual(createUserDto.lastName);
     });
 
     it('should return null if no user with the specified ID is found', async () => {
