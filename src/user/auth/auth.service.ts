@@ -7,6 +7,7 @@ import { SignupUserDto } from '../dto/signup-user.dto';
 import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../schema/user.schema';
+import { EmailNotificationService } from '../notifications/email-notification.service';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +15,7 @@ export class AuthService {
     private userService: UserService,
     private bcryptService: BcryptService,
     private jwtService: JwtService,
+    private emailNotificationService: EmailNotificationService,
     @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
@@ -61,10 +63,19 @@ export class AuthService {
         signupUserDto.password,
       ),
     });
+
+    const emailNotification = {
+      from: 'tnestjs@gmail.com',
+      to: createdUser.email,
+      subject:'Your account created successfully!',
+      text:'Your account created with our app, please head to "take a tour", to get started using our app'
+    }
     try {
       await createdUser.save();
+      await this.emailNotificationService.send(emailNotification)
       return { message: 'User created successfully', statusCode: 201 };
     } catch (error) {
+      console.log(error)
       throw { message: 'Error creating user', statusCode: 500 };
     }
   }
