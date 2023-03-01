@@ -8,7 +8,7 @@ import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: '.development.env', isGlobal: true }),
+    ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
     MongooseModule.forRoot('mongodb://localhost:27017/task-manager'),
     TaskModule,
     UserModule,
