@@ -3,6 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
 import { BcryptService } from 'src/modules/bcrypt/bcrypt.service';
+import { NotificationModule } from '../notifications/notification.module';
 import { User, UserSchema } from '../schema/user.schema';
 import { UserModule } from '../user.module';
 import { UserService } from '../user.service';
@@ -19,7 +20,8 @@ import { LocalStrategy } from './local.strategy';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '60s' },
     }),
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    NotificationModule
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy, BcryptService, UserService],
   exports: [AuthService],
