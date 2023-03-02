@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { BcryptService } from 'src/modules/bcrypt/bcrypt.services';
+import { BcryptService } from 'src/modules/bcrypt/bcrypt.service';
 import { UserService } from '../user.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserDto } from '../dto/login-user.dto';
@@ -7,6 +7,8 @@ import { SignupUserDto } from '../dto/signup-user.dto';
 import mongoose, { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from '../schema/user.schema';
+import { EmailNotificationService } from '../notifications/email-notification.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +16,8 @@ export class AuthService {
     private userService: UserService,
     private bcryptService: BcryptService,
     private jwtService: JwtService,
+    private emailNotificationService: EmailNotificationService,
+    private readonly configService: ConfigService,
     @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
@@ -61,10 +65,21 @@ export class AuthService {
         signupUserDto.password,
       ),
     });
+
+    const emailNotification = {
+      from: this.configService.get<string>('SENDER'),
+      to: createdUser.email,
+      subject: 'Your account created successfully!',
+      text: 'Your account created with our app, please head to "take a tour", to get started using our app',
+    };
     try {
-      await createdUser.save();
-      return { message: 'User created successfully', statusCode: 201 };
+      if (await createdUser.save()) {
+        await this.emailNotificationService.send(emailNotification);
+        console.log('email notification sent');
+        return { message: 'User created successfully', statusCode: 201 };
+      }
     } catch (error) {
+      console.log(error);
       throw { message: 'Error creating user', statusCode: 500 };
     }
   }
