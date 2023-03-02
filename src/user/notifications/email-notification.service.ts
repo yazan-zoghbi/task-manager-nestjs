@@ -5,22 +5,39 @@ import { SendEmailNotificationDto } from './dto/send-email-notification.dto';
 
 @Injectable()
 export class EmailNotificationService {
-  private transporter;
+  private mailTransport;
+
   constructor(private configService: ConfigService) {
-    this.transporter = createTransport({
-      host: this.configService.get<string>('MAIL_HOST'),
-      port: this.configService.get<number>('PORT'),
-      secure: false,
-      auth: {
-        user: this.configService.get<string>('USER'),
-        pass: this.configService.get<string>('PASSWORD'),
-      },
+    const SMTP_HOST = this.configService.get<string>('SMTP_HOST');
+    const SMTP_PORT = this.configService.get<number>('SMTP_PORT');
+
+    this.mailTransport = createTransport({
+      host: SMTP_HOST,
+      port: SMTP_PORT,
+      secure: false, // Set to true if your SMTP server requires a secure connection
+      tls: {
+        rejectUnauthorized: false // Set to true if your SMTP server uses a self-signed certificate
+      }
     });
   }
 
-  async send(
-    sendEmailNotificationDto: SendEmailNotificationDto,
-  ) {
-    await this.transporter.sendMail(sendEmailNotificationDto);
+  async send(sendEmailNotificationDto: SendEmailNotificationDto) {
+    const { from, to, subject, text } = sendEmailNotificationDto;
+
+    const mailOptions = {
+      from,
+      to,
+      subject,
+      text
+    };
+
+    try {
+      const info = await this.mailTransport.sendMail(mailOptions);
+      console.log(`Message sent to ${to}. Message Id: ${info.messageId}`);
+      return info;
+    } catch (error) {
+      console.error(`Error sending email to ${to}. Error: ${error}`);
+      throw error;
+    }
   }
 }
