@@ -29,7 +29,10 @@ export class UserService {
 
   async findManyById(usersId: string[]) {
     // Use the $in operator to find multiple documents by id
-    return await this.userModel.find({ _id: { $in: usersId } }).exec();
+    return await this.userModel
+      .find({ _id: { $in: usersId } })
+      .select('username')
+      .exec();
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
