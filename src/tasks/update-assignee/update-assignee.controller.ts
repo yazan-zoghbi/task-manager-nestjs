@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Param, Put } from '@nestjs/common';
+import { updateTaskAssigneeDto } from '../dto/update-task-assignee.dto';
 import { UpdateTaskAssigneeService } from './update-assignee.service';
 
 @Controller()
@@ -13,8 +14,8 @@ export class updateAssigneeController {
   @Put('task/assignee/:id')
   async updateTaskAssignee(
     @Param('id') id: string,
-    @Body() usersIds: string[],
+    @Body() updateTaskAssignee:updateTaskAssigneeDto,
   ) {
-    return await this.updateAssigneeService.addAssignee(id, usersIds);
+    return await this.updateAssigneeService.addAssignee(id, updateTaskAssignee.usersIds);
   }
 }
