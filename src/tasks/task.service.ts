@@ -18,8 +18,8 @@ export class TaskService {
     return await this.taskModel.find();
   }
 
-  async getByID(id: ObjectId): Promise<Task> {
-    return await this.taskModel.findById(id);
+  async getByID(id: string): Promise<Task> {
+    return await this.taskModel.findById(id).exec();
   }
 
   async update(id: ObjectId, updateTaskDto: UpdateTaskDto) {
@@ -32,5 +32,12 @@ export class TaskService {
 
   async delete(id: ObjectId) {
     return await this.taskModel.deleteOne({ _id: id });
+  }
+
+  async addAssignees(taskid: string, userid: string[]) {
+    return await this.taskModel.updateOne(
+      { _id: taskid },
+      { assignedTo: userid },
+    );
   }
 }
