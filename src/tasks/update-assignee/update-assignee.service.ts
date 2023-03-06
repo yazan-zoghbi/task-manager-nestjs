@@ -11,7 +11,9 @@ export class UpdateTaskAssigneeService {
 
   async getAssignees(taskId: string) {
     const task = await this.taskService.getByID(taskId);
-    return { assignedTo: task.assignedTo };
+    const usersIds = task.assignedTo.map((user) => user.toString());
+    const users = await this.userService.findManyById(usersIds);
+    return { assignedTo: users };
   }
 
   async addAssignee(taskId: string, userIds: string[]) {
@@ -31,7 +33,9 @@ export class UpdateTaskAssigneeService {
     }
 
     const users = await this.userService.findManyById(userIds);
-    const missingUsers = userIds.filter((id) => !users.some((user) => user.id === id));
+    const missingUsers = userIds.filter(
+      (id) => !users.some((user) => user.id === id),
+    );
     if (missingUsers.length > 0) {
       throw new NotFoundException({
         status: 404,
