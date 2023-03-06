@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { User } from 'src/user/schema/user.schema';
 
 export type TaskDocument = HydratedDocument<Task>;
 
@@ -18,8 +19,8 @@ export class Task {
   @Prop({default : "to do"})
   status: string;
 
-  @Prop()
-  assignedTo: string;
+  @Prop({type: [{type: mongoose.Schema.Types.ObjectId, ref:'User'}]})
+  assignedTo: User[];
 
   @Prop()
   createdAt?: Date;
